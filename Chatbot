@@ -1,0 +1,78 @@
+import nltk
+from nltk.chat.util import Chat, reflections
+import random
+
+# Download necessary NLTK data
+nltk.download('punkt')
+
+# Define a set of possible conversation pairs
+pairs = [
+    [
+        r"(my name is|I'm|I am) (.*)",
+        ["Hello %2, how can I help you today?", "Hi %2, what can I do for you?"]
+    ],
+    [
+        r"hi|hello|hey",
+        ["Hello!", "Hi there!", "Hey!", "Greetings!"]
+    ],
+    [
+        r"what is your name?",
+        ["My name is ChatBot.", "I'm ChatBot, your virtual assistant."]
+    ],
+    [
+        r"how are you?",
+        ["I'm just a program, but I'm functioning as expected!", "I'm here to assist you. How are you?"]
+    ],
+    [
+        r"(.*) help (.*)",
+        ["I'm here to help! What do you need assistance with?", "Sure, how can I assist you?"]
+    ],
+    [
+        r"(.*) (location|city|place) ?",
+        ["I'm in the virtual world, but I'm always available wherever you are!", "I'm everywhere you need me to be!"]
+    ],
+    [
+        r"(.*) (weather|temperature) ?",
+        ["I can't check the weather for you, but you can try a weather app!", "I suggest using a weather app to check the temperature."]
+    ],
+    [
+        r"quit",
+        ["Goodbye! It was nice talking to you.", "See you later! Have a great day!"]
+    ],
+    [
+        r"(.*)",
+        ["I see. Could you tell me more?", "Interesting. What else?", "I'm not sure I understand, could you explain?"]
+    ],
+]
+
+class AdvancedChatBot(Chat):
+    def __init__(self, pairs, reflections):
+        super().__init__(pairs, reflections)
+        self.history = []
+
+    def converse(self, quit="quit"):
+        user_input = ""
+        while quit not in user_input:
+            user_input = input("You: ").lower()
+            response = self.respond(user_input)
+            print(f"ChatBot: {response}")
+            self.history.append((user_input, response))
+    
+    def show_history(self):
+        print("\nConversation History:")
+        for user_input, response in self.history:
+            print(f"You: {user_input}")
+            print(f"ChatBot: {response}")
+
+def chatbot():
+    bot = AdvancedChatBot(pairs, reflections)
+    print("Hello! I am your ChatBot. Type 'quit' to end the conversation.")
+    bot.converse()
+    bot.show_history()
+
+if __name__ == "__main__":
+    chatbot()
+
+
+if __name__ == "__main__":
+    chatbot()
